@@ -21,17 +21,15 @@ int main(int argc, char *argv[]) {
 	std::string path = argv[1];
 	std::cout << "opening " << path << "\n";
 
-	std::ifstream file_stream;
-	//f.rdbuf()->pubsetbuf(0, 0);
-	file_stream.open(path, std::ifstream::in | std::ifstream::binary);
-
+	os::location loc(path);
+	int srcfd = loc.openfd();
 	char buffer[buf_size];
 
 	// transfer rate
 	int transferred = 0;
 	auto start_time = std::chrono::system_clock::now();
-	while (file_stream.good() && tcp_stream.good()) {
-		auto b = file_stream.readsome(buffer, buf_size);
+	while (tcp_stream.good()) {
+		auto b = read(srcfd, buffer, buf_size);
 		tcp_stream.write(buffer, b);
 		transferred += b;
 		if (transferred > (1 << 20)) {
