@@ -31,9 +31,9 @@ int main(int argc, char *argv[]) {
 	int transferred = 0;
 	auto start_time = std::chrono::system_clock::now();
 	while (file_stream.good() && tcp_stream.good()) {
-		file_stream.read(buffer, buf_size);
-		tcp_stream.write(buffer, buf_size);
-		transferred += buf_size;
+		auto b = file_stream.readsome(buffer, buf_size);
+		tcp_stream.write(buffer, b);
+		transferred += b;
 		if (transferred > (1 << 28)) {
 			auto end_time = std::chrono::system_clock::now();
 			std::chrono::duration<double> elapsed_seconds = end_time - start_time;
