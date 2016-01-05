@@ -110,7 +110,7 @@ location location::append(const std::string &path) const {
 
 int location::openfd() const {
 	if (exists() && ischr()) {
-		return open(filepath.c_str(), O_RDONLY | O_NONBLOCK, 0);
+		return open(filepath.c_str(), O_RDONLY, 0); //  | O_NONBLOCK
 	}
 	return -1;
 }
