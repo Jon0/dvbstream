@@ -29,6 +29,9 @@ int main(int argc, char *argv[]) {
 	std::cout << "opening " << path << "\n";
 	os::location loc(path);
 	int srcfd = loc.openfd();
+	if (srcfd < 0) {
+		os::error("ERROR opening file");
+	}
 	char buffer[buf_size];
 
 	// transfer rate

@@ -29,13 +29,13 @@ int xioctl(int fh, int request, void *arg) {
 	int r;
 	do {
 		r = ioctl(fh, request, arg);
-	} 
+	}
 	while (-1 == r && EINTR == errno);
 	return r;
 }
 
 
-location::location(const std::string &path) 
+location::location(const std::string &path)
 	:
 	filepath(path),
 	location_exists(stat(path.c_str(), &location_stat)) {
@@ -110,7 +110,7 @@ location location::append(const std::string &path) const {
 
 int location::openfd() const {
 	if (exists() && ischr()) {
-		return open(filepath.c_str(), O_RDWR | O_NONBLOCK, 0);
+		return open(filepath.c_str(), O_RDONLY | O_NONBLOCK, 0);
 	}
 	return -1;
 }
