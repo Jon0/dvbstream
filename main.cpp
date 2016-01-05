@@ -5,7 +5,7 @@
 
 #include "socket.h"
 
-constexpr int buf_size = 1024 * 1024;
+constexpr int buf_size = 4 * 1024;
 
 int sendall(int outfd, char *buffer, int buf_size) {
 	while (buf_size > 0) {
