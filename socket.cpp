@@ -18,7 +18,7 @@ int open_socket(const sockaddr_in &serv_addr) {
 	}
 
 	// bind and listen on socket
-	if (connect(sockfd, (sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
+	if (bind(sockfd, (sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
 		error("ERROR on binding");
 	}
 	listen(sockfd, 5);
