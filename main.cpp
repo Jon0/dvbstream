@@ -10,6 +10,9 @@ constexpr int buf_size = 4 * 1024;
 int sendall(int outfd, char *buffer, int buf_size) {
 	while (buf_size > 0) {
 		buf_size -= write(outfd, buffer, buf_size);
+		if (buf_size > 0) {
+			std::cout << "incomplete write: " << buf_size << "\n";
+		}
 	}
 	return buf_size;
 }
