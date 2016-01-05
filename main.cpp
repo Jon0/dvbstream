@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
 		auto b = file_stream.readsome(buffer, buf_size);
 		tcp_stream.write(buffer, b);
 		transferred += b;
-		if (transferred > (1 << 28)) {
+		if (transferred > (1 << 20)) {
 			auto end_time = std::chrono::system_clock::now();
 			std::chrono::duration<double> elapsed_seconds = end_time - start_time;
 			auto rate = static_cast<double>(transferred) / (elapsed_seconds.count() * 1024 * 1024);
