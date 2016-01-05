@@ -9,7 +9,16 @@ constexpr int buf_size = 4 * 1024;
 
 int sendall(int outfd, char *buffer, int buf_size) {
 	while (buf_size > 0) {
-		buf_size -= write(outfd, buffer, buf_size);
+		int w = write(outfd, buffer, buf_size);
+		if (w > 0) {
+			buf_size -= w;
+			buffer += w;
+		}
+		else {
+			os::error("ERROR writing fd");
+		}
+
+		// note incomplete writes
 		if (buf_size > 0) {
 			std::cout << "incomplete write: " << buf_size << "\n";
 		}
@@ -45,10 +54,7 @@ int main(int argc, char *argv[]) {
 		if (b < 0) {
 			os::error("ERROR reading fd");
 		}
-		int s = sendall(sock.fd(), buffer, buf_size);
-		if (s < 0) {
-			os::error("ERROR writing fd");
-		}
+		sendall(sock.fd(), buffer, b);
 
 		// record transfer rate
 		transferred += b;
